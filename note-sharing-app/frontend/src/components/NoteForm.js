@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import SimpleMDE from "react-simplemde-editor";
 import "easymde/dist/easymde.min.css";
 
@@ -20,9 +20,21 @@ export default function NoteForm({ onAdd, onUpdate, editing, onCancel }) {
     }
   }, [editing]);
 
-  function submit(e) {
+  // Memoize SimpleMDE options to prevent re-renders
+  const editorOptions = useMemo(() => ({
+    placeholder: "Write your note in Markdown...",
+    spellChecker: false,
+    minHeight: "150px",
+    autofocus: false,
+    status: false
+  }), []);
+
+  const submit = useCallback((e) => {
     e.preventDefault();
-    if (!content.trim()) return;
+    if (!content.trim()) {
+      alert('⚠️ Please write some content for your note!');
+      return;
+    }
     if (editing) {
       onUpdate(editing.id, { title, content, tags });
     } else {
@@ -31,20 +43,44 @@ export default function NoteForm({ onAdd, onUpdate, editing, onCancel }) {
     setTitle(''); 
     setContent('');
     setTags([]);
-  }
+  }, [content, editing, onUpdate, onAdd, title, tags]);
 
-  function addTag(e) {
+  const addTag = useCallback((e) => {
     e.preventDefault();
+    e.stopPropagation();
     const tag = tagInput.trim().toLowerCase();
-    if (tag && !tags.includes(tag)) {
-      setTags([...tags, tag]);
-      setTagInput('');
+    if (!tag) {
+      return;
     }
-  }
+    if (tags.includes(tag)) {
+      alert('⚠️ Tag already added!');
+      setTagInput('');
+      return;
+    }
+    if (tag.length > 20) {
+      alert('⚠️ Tag is too long! Keep it under 20 characters.');
+      return;
+    }
+    setTags(prevTags => [...prevTags, tag]);
+    setTagInput('');
+    // Show success feedback
+    const btn = e.target;
+    if (btn.textContent) {
+      const originalText = btn.textContent;
+      btn.textContent = '✓ Added!';
+      setTimeout(() => {
+        btn.textContent = originalText;
+      }, 1000);
+    }
+  }, [tagInput, tags]);
 
-  function removeTag(tag) {
-    setTags(tags.filter(t => t !== tag));
-  }
+  const removeTag = useCallback((tag) => {
+    setTags(prevTags => prevTags.filter(t => t !== tag));
+  }, []);
+
+  const handleContentChange = useCallback((value) => {
+    setContent(value);
+  }, []);
 
   return (
     <div className="card note-form">
@@ -58,33 +94,54 @@ export default function NoteForm({ onAdd, onUpdate, editing, onCancel }) {
         />
         <SimpleMDE 
           value={content} 
-          onChange={setContent}
-          options={{
-            placeholder: "Write your note in Markdown...",
-            spellChecker: false,
-            minHeight: "150px"
-          }}
+          onChange={handleContentChange}
+          options={editorOptions}
         />
         <div className="tags-section">
+          <label className="tags-label">
+            🏷️ Tags {tags.length > 0 && <span className="tag-count">({tags.length})</span>}
+          </label>
           <div className="tag-input-wrapper">
             <input 
+              type="text"
               placeholder="Add tags (e.g., work, personal, ideas)" 
               value={tagInput} 
               onChange={e=>setTagInput(e.target.value)}
-              onKeyPress={e => e.key === 'Enter' && addTag(e)}
+              onKeyDown={e => {
+                if (e.key === 'Enter') {
+                  addTag(e);
+                }
+              }}
               className="tag-input"
+              maxLength={20}
             />
-            <button type="button" onClick={addTag} className="btn small">+ Add Tag</button>
+            <button 
+              type="button" 
+              onClick={addTag} 
+              className="btn small primary"
+              disabled={!tagInput.trim()}
+            >
+              + Add Tag
+            </button>
           </div>
-          {tags.length > 0 && (
+          {tags.length > 0 ? (
             <div className="tags-display">
               {tags.map(tag => (
                 <span key={tag} className="tag">
                   {tag}
-                  <button type="button" onClick={() => removeTag(tag)} className="tag-remove">×</button>
+                  <button 
+                    type="button" 
+                    onClick={() => removeTag(tag)} 
+                    className="tag-remove"
+                    title="Remove tag"
+                  >
+                    ×
+                  </button>
                 </span>
               ))}
             </div>
+          ) : (
+            <p className="tags-hint">💡 Add tags to organize your notes</p>
           )}
         </div>
         <div className="row">

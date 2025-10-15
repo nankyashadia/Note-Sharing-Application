@@ -232,6 +232,27 @@ label {
   padding: 16px;
   background: #f8fafc;
   border-radius: 10px;
+  border: 2px dashed var(--border);
+}
+
+.tags-label {
+  display: block;
+  margin-bottom: 12px;
+  font-weight: 600;
+  color: var(--primary);
+  font-size: 1rem;
+}
+
+.tag-count {
+  color: var(--secondary);
+  font-size: 0.9rem;
+}
+
+.tags-hint {
+  margin: 12px 0 0 0;
+  color: var(--muted);
+  font-size: 0.85rem;
+  font-style: italic;
 }
 
 .tag-input-wrapper {
@@ -263,6 +284,13 @@ label {
   font-size: 0.85rem;
   font-weight: 600;
   animation: popIn 0.3s ease-out;
+  box-shadow: 0 2px 4px rgba(124, 58, 237, 0.2);
+  transition: all 0.2s ease;
+}
+
+.tag:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(124, 58, 237, 0.3);
 }
 
 .tag.small {
@@ -287,17 +315,20 @@ label {
   color: white;
   cursor: pointer;
   border-radius: 50%;
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: bold;
+  font-size: 1.2rem;
+  line-height: 1;
   transition: all 0.2s ease;
 }
 
 .tag-remove:hover {
   background: rgba(255, 255, 255, 0.5);
+  transform: rotate(90deg) scale(1.1);
 }
 
 .tag-filter {
