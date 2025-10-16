@@ -174,7 +174,7 @@ note-sharing-app/
  Shared notes filtering  
  Better error responses  
 
-### Frontend 
+## Frontend 
  Loading spinners and states  
  Error boundaries and messages  
  Tag creation and management  
