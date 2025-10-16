@@ -32,7 +32,7 @@ export default function NoteForm({ onAdd, onUpdate, editing, onCancel }) {
   const submit = useCallback((e) => {
     e.preventDefault();
     if (!content.trim()) {
-      alert('⚠️ Please write some content for your note!');
+      alert(' Please write some content for your note!');
       return;
     }
     if (editing) {
@@ -53,12 +53,12 @@ export default function NoteForm({ onAdd, onUpdate, editing, onCancel }) {
       return;
     }
     if (tags.includes(tag)) {
-      alert('⚠️ Tag already added!');
+      alert(' Tag already added!');
       setTagInput('');
       return;
     }
     if (tag.length > 20) {
-      alert('⚠️ Tag is too long! Keep it under 20 characters.');
+      alert(' Tag is too long! Keep it under 20 characters.');
       return;
     }
     setTags(prevTags => [...prevTags, tag]);
@@ -84,7 +84,7 @@ export default function NoteForm({ onAdd, onUpdate, editing, onCancel }) {
 
   return (
     <div className="card note-form">
-      <h2>{editing ? '✏️ Edit Note' : '📝 Create New Note'}</h2>
+      <h2>{editing ? ' Edit Note' : ' Create New Note'}</h2>
       <form onSubmit={submit}>
         <input 
           placeholder="Title (optional)" 
@@ -99,7 +99,7 @@ export default function NoteForm({ onAdd, onUpdate, editing, onCancel }) {
         />
         <div className="tags-section">
           <label className="tags-label">
-            🏷️ Tags {tags.length > 0 && <span className="tag-count">({tags.length})</span>}
+             Tags {tags.length > 0 && <span className="tag-count">({tags.length})</span>}
           </label>
           <div className="tag-input-wrapper">
             <input 
@@ -141,12 +141,12 @@ export default function NoteForm({ onAdd, onUpdate, editing, onCancel }) {
               ))}
             </div>
           ) : (
-            <p className="tags-hint">💡 Add tags to organize your notes</p>
+            <p className="tags-hint"> Add tags to organize your notes</p>
           )}
         </div>
         <div className="row">
           <button className="btn primary" type="submit">
-            {editing ? '💾 Update Note' : '➕ Add Note'}
+            {editing ? ' Update Note' : ' Add Note'}
           </button>
           {editing && <button type="button" className="btn ghost" onClick={onCancel}>Cancel</button>}
         </div>

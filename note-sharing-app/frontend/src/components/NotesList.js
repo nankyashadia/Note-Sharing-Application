@@ -36,7 +36,7 @@ export default function NotesList({ notes, onDelete, onEdit, onShare, allUsers, 
     <div>
       <div className="filters-section">
         <input 
-          placeholder="🔍 Search notes..." 
+          placeholder=" Search notes..." 
           value={query} 
           onChange={e=>setQuery(e.target.value)} 
           className="search" 
@@ -64,7 +64,7 @@ export default function NotesList({ notes, onDelete, onEdit, onShare, allUsers, 
       
       {filtered.length === 0 ? (
         <p className="empty">
-          {query || selectedTag ? '🔍 No matching notes found.' : '📭 No notes yet. Create your first note!'}
+          {query || selectedTag ? ' No matching notes found.' : ' No notes yet. Create your first note!'}
         </p>
       ) : (
         <div className="notes-grid">
@@ -72,7 +72,7 @@ export default function NotesList({ notes, onDelete, onEdit, onShare, allUsers, 
             const isShared = n.user !== currentUser;
             return (
               <article key={n.id} className={`note-card ${isShared ? 'shared-note' : ''}`}>
-                {isShared && <div className="shared-badge">📨 Shared by {n.user}</div>}
+                {isShared && <div className="shared-badge"> Shared by {n.user}</div>}
                 <h3>{n.title || 'Untitled'}</h3>
                 {n.tags && n.tags.length > 0 && (
                   <div className="tags-display">
@@ -97,12 +97,12 @@ export default function NotesList({ notes, onDelete, onEdit, onShare, allUsers, 
                   <div className="row">
                     {!isShared && (
                       <>
-                        <button className="btn small" onClick={()=>onEdit(n)}>✏️ Edit</button>
+                        <button className="btn small" onClick={()=>onEdit(n)}> Edit</button>
                         <button 
                           className="btn small secondary" 
                           onClick={()=>setShowShareModal(n.id)}
                         >
-                          📤 Share
+                           Share
                         </button>
                         <button 
                           className="btn small danger" 
@@ -111,7 +111,7 @@ export default function NotesList({ notes, onDelete, onEdit, onShare, allUsers, 
                               onDelete(n.id); 
                           }}
                         >
-                          🗑️ Delete
+                           Delete
                         </button>
                       </>
                     )}

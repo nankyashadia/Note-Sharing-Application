@@ -145,7 +145,7 @@ function App() {
   return (
     <div className="app">
       <header className="hero">
-        <h1>✨ MyNoteSpace</h1>
+        <h1> MyNoteSpace</h1>
         {user && <div className="user-controls">
           <span>Signed in as <strong>{user.username}</strong></span>
           <button onClick={handleLogout} className="btn">Logout</button>
@@ -154,7 +154,7 @@ function App() {
       <main className="container">
         {error && (
           <div className="error-banner">
-            <span>⚠️ {error}</span>
+            <span> {error}</span>
             <button onClick={() => setError(null)} className="close-btn">✕</button>
           </div>
         )}

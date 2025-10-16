@@ -24,7 +24,7 @@ export default function Login({ onLogin }) {
     }
     
     setLoading(true);
-    setMessage('⏳ Please wait...');
+    setMessage(' Please wait...');
     
     const url = mode === 'login' ? `${API}/auth/login` : `${API}/auth/register`;
     fetch(url, {
@@ -35,10 +35,10 @@ export default function Login({ onLogin }) {
       const data = await r.json();
       setLoading(false);
       if (!r.ok) {
-        setMessage(`❌ ${data.error || 'Error'}`);
+        setMessage(` ${data.error || 'Error'}`);
       } else {
         if (mode === 'register') {
-          setMessage('✅ Account created successfully! Please log in.');
+          setMessage(' Account created successfully! Please log in.');
           setMode('login');
           setPassword('');
           setConfirm('');
@@ -49,13 +49,13 @@ export default function Login({ onLogin }) {
       }
     }).catch(err => {
       setLoading(false);
-      setMessage('❌ Network error: cannot reach backend at http://localhost:4000');
+      setMessage(' Network error: cannot reach backend at http://localhost:4000');
     });
   }
 
   return (
     <div className="card auth">
-      <h2>{mode === 'login' ? '🔐 Login' : '📝 Create Account'}</h2>
+      <h2>{mode === 'login' ? ' Login' : ' Create Account'}</h2>
       <form onSubmit={submit}>
         <label>Username</label>
         <input 
@@ -89,7 +89,7 @@ export default function Login({ onLogin }) {
         </>}
         <div className="row">
           <button className="btn primary" type="submit" disabled={loading}>
-            {loading ? '⏳ Loading...' : (mode === 'login' ? '🔓 Login' : '✨ Register')}
+            {loading ? ' Loading...' : (mode === 'login' ? ' Login' : ' Register')}
           </button>
           <button 
             type="button" 
@@ -105,7 +105,7 @@ export default function Login({ onLogin }) {
         </div>
       </form>
       {message && (
-        <p className={`message ${message.includes('✅') ? 'success' : ''}`}>
+        <p className={`message ${message.includes('') ? 'success' : ''}`}>
           {message}
         </p>
       )}
