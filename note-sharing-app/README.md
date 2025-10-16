@@ -1,7 +1,3 @@
-# ✨ MyNoteSpace — Modern Note Sharing Application
-
-**AIBOS Take-Home Assignment — Enhanced React + Node.js Application**
-
 ##  Overview
 A beautiful, modern note-sharing application with enhanced user experience, featuring:
 -  Secure authentication (register & login with password confirmation and bcrypt hashing)
